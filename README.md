@@ -1,9 +1,17 @@
 # terminal-todo
-Kanban board for the terminal.  
+TODO list for the terminal.  
 
-The files todo.txt, doing.txt, and done.txt needs to be created in the root folder.
+## Installation
+ I put this script in /usr/local/bin/todo to make the script global
+ ```
+ #!/bin/bash
 
-Good luck.  
+ORIGIN=${PWD}
 
-## Issues
-• There are some problems with the formatting of the output. Especially if å, ä or ö is added. Probably for more special characters.
+cd /path/to/terminal-todo
+
+./todo.sh
+
+cd ${ORIGIN}
+ ```
+Type todo in the terminal to run the program.
