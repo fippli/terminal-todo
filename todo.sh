@@ -47,7 +47,6 @@ function main() {
     clear
     mainMenu
   done
-  cd ${1}
 }
 
 main
