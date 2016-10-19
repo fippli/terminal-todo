@@ -1,21 +1,13 @@
 #!/bin/bash
 
 function mainMenu() {
-  echo "|"
-  echo "|   - - - - - - - - - - - - - - - - - - - - - - -"
-  echo "|"
-  echo "|   • • • •    • • • •    • • • •      • • • •  "
-  echo "|   • • • •   • • • • •   • •  • •    • • • • • "
-  echo "|     • •    • •     • •  • •   • •  • •     • •"
-  echo "|     • •     • • • • •   • •  • •    • • • • • "
-  echo "|     • •      • • • •    • • • •      • • • •  "
-  echo "|"
-  echo "|   - - - - - - - - - - - - - - - - - - - - - - -"
+  printf "\n\n"
+  ./tableHead.sh
+  echo "   "
+  echo "       - - - - - - - - - - - - - - - - - - - - - -    "
   readTasks
-  echo "|"
-  echo "|   - - - - - - - - - - - - - - - - - - - - - - -"
-  read -p  "|   [A]DD TASK / [D]ELETE TASK / [Q]UIT : " CHOICE
-  echo "|   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|"
+  echo "       - - - - - - - - - - - - - - - - - - - - - - "
+  read -p  "       [A]DD TASK / [D]ELETE TASK / [Q]UIT : " CHOICE
 
   if [[ ${CHOICE} == "a" ]]; then
     addTask
@@ -24,32 +16,35 @@ function mainMenu() {
   if [[ ${CHOICE} == "d" ]]; then
     deleteTask
   fi
+
 }
 
+
+
 function addTask() {
-read -p "|   Enter task: " TASK
-echo ${TASK} >> tasks.txt
-#cat <<EOT >> tasks.txt
-#${TASK}
-#EOT
+  read -p "       ENTER NEW TASK: " TASK
+  echo ${TASK} >> todo.txt
 }
 
 function readTasks() {
+  # Count the lines ins the file
+  LINES=$( wc -l < ./todo.txt )
   i=0
-  while IFS='' read -r line || [[ -n "${line}" ]]; do
+  echo ""
+  while [[ $i -lt $((LINES)) ]]; do
     i=$((i+1))
-    echo "|"
-    echo "|   [${i}] ${line}"
-  done < "tasks.txt"
+    printf "       [${i}] $( sed "${i}q;d" ./todo.txt )\n\n"
+  done
 }
 
 function deleteTask() {
-  read -p "|   SELECT TASK TO DELETE: " DEL
-  sed -i.bak "${DEL}d" ./tasks.txt
+  read -p "       SELECT TASK TO DELETE: " DEL
+  sed -i.bak "${DEL}d" "./todo.txt"
 }
 
 function main() {
   while [[ ${CHOICE} != "q" ]]; do
+    clear
     mainMenu
   done
   cd ${1}
