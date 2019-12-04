@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
-TODO_TASK_FILE="${TODO_TASK_FILE:-./todo.txt}"
-TODO_HEADER_FILE="${TODO_HEADER_FILE:-./tableHead.sh}"
+# To be able to separate the code into several files after creating a symlink
+# to ~/bin/todo the path to the source root is good to have.
+# The relative paths to the project files can now  be used
+# like so $lib_dir/someProjectScript.sh
+this_path=${BASH_SOURCE[0]}
+lib_path=$(readlink ${this_path})
+lib_dir=$(dirname $lib_path)
+
+TODO_TASK_FILE="${TODO_TASK_FILE:-$lib_dir/todo.txt}"
+TODO_HEADER_FILE="${TODO_HEADER_FILE:-$lib_dir/tableHead.sh}"
 WARNINGS_SHOWED=false
 
 function mainMenu() {
@@ -11,7 +19,7 @@ function mainMenu() {
   echo "       - - - - - - - - - - - - - - - - - - - - - -    "
   readTasks
   echo "       - - - - - - - - - - - - - - - - - - - - - - "
-  read -r -e -p  "       [A]DD / [D]ELETE / [E] EDIT / [Q]UIT : " CHOICE
+  read -r -e -p  "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT : " CHOICE
 
   if [[ ${CHOICE} == "a" ]]; then
     addTask

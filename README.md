@@ -1,17 +1,22 @@
-# terminal-todo
-TODO list for the terminal.  
+# Terminal Todo
+TODO list for the terminal.
 
 ## Installation
- I put this script in /usr/local/bin/todo to make the script global
- ```
- #!/bin/bash
+Get a copy of the code and run the script
+```
+bash install.sh
+```
+from the root folder of the project.
 
-ORIGIN=${PWD}
 
-cd /path/to/terminal-todo
+<img src="./img/install.gif" width="600"/>
 
-./todo.sh
 
-cd ${ORIGIN}
- ```
-Type todo in the terminal to run the program.
+## Basic usage
+run
+```
+todo
+```
+in your terminal to open the program.
+
+
