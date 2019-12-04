@@ -8,7 +8,9 @@ bash install.sh
 ```
 from the root folder of the project.
 
-![install.gif](./img/install.gif)
+
+<img src="./img/install.gif" width="600"/>
+
 
 ## Basic usage
 run
