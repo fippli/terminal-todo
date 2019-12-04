@@ -116,4 +116,62 @@ main () {
   done
 }
 
+while test $# -gt 0; do
+  case "$1" in
+    -h|--help)
+      echo "todo - Manage TODO lists"
+      echo " "
+      echo "  --help                             : Print this help text"
+      echo "  --task-file (TODO_TASK_FILE)       : Set the file to store TODOs in"
+      echo "  --header-file (TODO_HEADER_FILE)   : Set the path to header"
+      echo "  --no-color (TODO_NO_COLOR)         : Disable colors if ansi header is used"
+      echo "  --random-color (TODO_RANDOM_COLOR) : Use random colors if ansi heade ris used"
+      echo "  --this-dir                         : Create a .todo.txt with every occurance of '# TODO:' or '// TODO:' in the directory files"
+      echo " "
+      exit 0
+      ;;
+    --task-file*)
+      if [[ "$1" =~ ^[^=]+$ ]]; then
+        shift
+      fi
+
+      # shellcheck disable=SC2001
+      todo_task_file=$(echo "$1" | sed -e 's/^[^=]*=//g')
+      shift
+      ;;
+    --header-file*)
+      if [[ "$1" =~ ^[^=]+$ ]]; then
+        shift
+      fi
+
+      # shellcheck disable=SC2001
+      todo_header_file=$(echo "$1" | sed -e 's/^[^=]*=//g')
+      shift
+      ;;
+    --no-color*)
+      if [ -n "$TODO_RANDOM_COLOR" ]; then
+        echo "Cannot combine --no-color with --random-color"
+        exit 1
+      fi
+
+      export TODO_NO_COLOR=1
+      shift
+      ;;
+    --random-color*)
+      if [ -n "$TODO_NO_COLOR" ]; then
+        echo "Cannot combine --no-color with --random-color"
+        exit 1
+      fi
+
+      export TODO_RANDOM_COLOR=1
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
 main
+
+# vim: set ft=sh sw=2 ts=2 et:

@@ -42,14 +42,18 @@ make TODO_INSTALL_DIR="$HOME/.bin" uninstall
 Run:
 
 ```sh
-todo
+$ todo --help
+todo - Manage TODO lists
+
+  --help                             : Print this help text
+  --task-file (TODO_TASK_FILE)       : Set the file to store TODOs in
+  --header-file (TODO_HEADER_FILE)   : Set the path to header
+  --no-color (TODO_NO_COLOR)         : Disable colors if ansi header is used
+  --random-color (TODO_RANDOM_COLOR) : Use random colors if ansi heade ris used
 ```
 
 in your terminal to open the program.
 
 The same variables set when installing can be set to override the default
-behaviour when running the program. If you want to run a new todo list, run:
-
-```sh
-TODO_TASK_FILE=my-new-file todo
-```
+behaviour when running the program. They are also listed along with the flags in
+the help text.
