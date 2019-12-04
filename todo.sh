@@ -130,6 +130,11 @@ while test $# -gt 0; do
       echo " "
       exit 0
       ;;
+    --this-dir*)
+      "$lib_dir/todo_from_file.sh"
+      shift
+      exit 0
+      ;;
     --task-file*)
       if [[ "$1" =~ ^[^=]+$ ]]; then
         shift

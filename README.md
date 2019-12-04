@@ -50,6 +50,7 @@ todo - Manage TODO lists
   --header-file (TODO_HEADER_FILE)   : Set the path to header
   --no-color (TODO_NO_COLOR)         : Disable colors if ansi header is used
   --random-color (TODO_RANDOM_COLOR) : Use random colors if ansi heade ris used
+  --this-dir                         : Create a .todo.txt with every occurance of '# TODO:' or '// TODO:' in the directory files
 ```
 
 in your terminal to open the program.
