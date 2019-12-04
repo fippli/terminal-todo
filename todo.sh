@@ -9,32 +9,32 @@ lib_path=$(readlink ${this_path})
 lib_dir=$(dirname $lib_path)
 
 TODO_TASK_FILE="${TODO_TASK_FILE:-$lib_dir/todo.txt}"
-TODO_HEADER_FILE="${TODO_HEADER_FILE:-$lib_dir/tableHead.sh}"
+TODO_HEADER_FILE="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
 WARNINGS_SHOWED=false
 
-function mainMenu() {
+main_menu () {
   printf "\n\n"
   [ -f "$TODO_HEADER_FILE" ] && "$TODO_HEADER_FILE"
   echo "   "
   echo "       - - - - - - - - - - - - - - - - - - - - - -    "
-  readTasks
+  read_tasks
   echo "       - - - - - - - - - - - - - - - - - - - - - - "
-  read -r -e -p  "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT : " CHOICE
+  read -r -e -p  "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT : " choice
 
-  if [[ ${CHOICE} == "a" ]]; then
-    addTask
+  if [[ ${choice} == "a" ]]; then
+    add_task
   fi
 
-  if [[ ${CHOICE} == "d" ]]; then
-    deleteTask
+  if [[ ${choice} == "d" ]]; then
+    delete_task
   fi
 
-  if [[ ${CHOICE} == "e" ]]; then
-    editTask
+  if [[ ${choice} == "e" ]]; then
+    edit_task
   fi
 }
 
-numericOrPrintError() {
+numeric_or_print_error () {
   NUMBER="$1"
 
   if ! [[ "$NUMBER" =~ ^[0-9]+$ ]] ; then
@@ -48,12 +48,12 @@ numericOrPrintError() {
   return 1
 }
 
-function addTask() {
-  read -r -e -p "       ENTER NEW TASK: " TASK
-  echo "${TASK}" >> "$TODO_TASK_FILE"
+add_task () {
+  read -r -e -p "       ENTER NEW TASK: " task
+  echo "${task}" >> "$TODO_TASK_FILE"
 }
 
-editTask () {
+edit_task () {
   if [ "${BASH_VERSINFO:-0}" -lt 4 ] && [ "$WARNINGS_SHOWED" = false ]; then
     echo ""
     echo "       ⚠️  Your version of bash doesn't support the -i flag to 'read'."
@@ -68,26 +68,26 @@ editTask () {
 
   read -r -e -p "       SELECT TASK TO EDIT: " LINE
 
-  if numericOrPrintError "$LINE" == 0; then
+  if numeric_or_print_error "$LINE" == 0; then
       return
   fi
 
-  TASK=$(sed -n "${LINE}"p "$TODO_TASK_FILE")
+  task=$(sed -n "${LINE}"p "$TODO_TASK_FILE")
 
   # Don't (try) to pre fill the prompt on old bash versions.
   if [ "${BASH_VERSINFO:-0}" -lt 4 ]; then
-    read -r -e -p "       EDIT TASK: " EDITED_TASK
+    read -r -e -p "       EDIT TASK: " edited_task
   else
-    read -r -e -p "       EDIT TASK: " -i "$TASK" EDITED_TASK
+    read -r -e -p "       EDIT TASK: " -i "$task" edited_task
   fi
 
   # Since macOS comes with old BSD version of sed we cannot insert at a specific
   # line, instead we replace it with regexp.
-  # With GNU sed this would be 'sed -i.bak "${LINE}i${LINE} $EDITED_TASK"'
-  sed -i.bak "${LINE}s/.*/$EDITED_TASK/" "$TODO_TASK_FILE"
+  # With GNU sed this would be 'sed -i.bak "${LINE}i${LINE} $edited_task"'
+  sed -i.bak "${LINE}s/.*/$edited_task/" "$TODO_TASK_FILE"
 }
 
-function readTasks() {
+read_tasks () {
   # Count the lines ins the file
   LINES=$( wc -l < "$TODO_TASK_FILE" )
   i=0
@@ -98,22 +98,22 @@ function readTasks() {
   done
 }
 
-function deleteTask() {
+delete_task () {
   read -r -e -p "       SELECT TASK TO DELETE: " DEL
 
-  if numericOrPrintError "$DEL" == 0; then
+  if numeric_or_print_error "$DEL" == 0; then
       return
   fi
 
   sed -i.bak "${DEL}d" "$TODO_TASK_FILE"
 }
 
-function main() {
+main () {
   [ -f "$TODO_TASK_FILE" ] || touch "$TODO_TASK_FILE"
 
-  while [[ ${CHOICE} != "q" ]]; do
+  while [[ ${choice} != "q" ]]; do
     clear
-    mainMenu
+    main_menu
   done
 }
 
