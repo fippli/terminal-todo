@@ -5,7 +5,7 @@ APP_NAME           = todo
 TODO_INSTALL_DIR  ?= $(HOME)/bin
 APP_PATH           = $(TODO_INSTALL_DIR)/$(APP_NAME)
 
-TODO_TASK_FILE    ?= $(TODO_INSTALL_DIR)/todo.txt
+TODO_TASK_FILE    ?= $(TODO_INSTALL_DIR)/.todo
 TODO_HEADER_FILE  ?= $(PROJECT_PATH)/table_head_ansii_color.sh
 TODO_NO_COLOR     ?=
 TODO_RANDOM_COLOR ?=

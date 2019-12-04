@@ -7,7 +7,7 @@
 this_path=${BASH_SOURCE[0]}
 lib_dir="$(dirname "$this_path")"
 
-todo_task_file="${TODO_TASK_FILE:-$lib_dir/todo.txt}"
+todo_task_file="${TODO_TASK_FILE:-$lib_dir/.todo}"
 todo_header_file="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
 warnings_showed=false
 
@@ -126,7 +126,7 @@ while test $# -gt 0; do
       echo "  --header-file (TODO_HEADER_FILE)   : Set the path to header"
       echo "  --no-color (TODO_NO_COLOR)         : Disable colors if ansi header is used"
       echo "  --random-color (TODO_RANDOM_COLOR) : Use random colors if ansi heade ris used"
-      echo "  --this-dir                         : Create a .todo.txt with every occurance of '# TODO:' or '// TODO:' in the directory files"
+      echo "  --this-dir                         : Create a .todo with every occurance of '# TODO:' or '// TODO:' in the directory files"
       echo " "
       exit 0
       ;;
