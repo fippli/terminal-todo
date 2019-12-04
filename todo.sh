@@ -115,6 +115,8 @@ main () {
     clear
     main_menu
   done
+
+  clear
 }
 
 while test $# -gt 0; do
