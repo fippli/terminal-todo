@@ -5,8 +5,7 @@
 # The relative paths to the project files can now  be used
 # like so $lib_dir/someProjectScript.sh
 this_path=${BASH_SOURCE[0]}
-lib_path="$(readlink "$this_path")"
-lib_dir="$(dirname "$lib_path")"
+lib_dir="$(dirname "$this_path")"
 
 todo_task_file="${TODO_TASK_FILE:-$lib_dir/todo.txt}"
 todo_header_file="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
