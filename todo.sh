@@ -10,6 +10,7 @@ lib_dir="$(dirname "$this_path")"
 todo_task_file="${TODO_TASK_FILE:-$lib_dir/.todo}"
 todo_header_file="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
 warnings_showed=false
+no_local=false # Skip reading of local .todo file
 
 main_menu () {
   printf "\n\n"
@@ -126,6 +127,7 @@ while test $# -gt 0; do
       echo "  --header-file (TODO_HEADER_FILE)   : Set the path to header"
       echo "  --no-color (TODO_NO_COLOR)         : Disable colors if ansi header is used"
       echo "  --random-color (TODO_RANDOM_COLOR) : Use random colors if ansi heade ris used"
+      echo "  --no-local                         : Don't use local .todo file even if it exist"
       echo "  --this-dir                         : Create a .todo with every occurance of '# TODO:' or '// TODO:' in the directory files"
       echo " "
       exit 0
@@ -144,7 +146,7 @@ while test $# -gt 0; do
       todo_task_file=$(echo "$1" | sed -e 's/^[^=]*=//g')
       shift
       ;;
-    --header-file*)
+    --header-file)
       if [[ "$1" =~ ^[^=]+$ ]]; then
         shift
       fi
@@ -153,7 +155,7 @@ while test $# -gt 0; do
       todo_header_file=$(echo "$1" | sed -e 's/^[^=]*=//g')
       shift
       ;;
-    --no-color*)
+    --no-color)
       if [ -n "$TODO_RANDOM_COLOR" ]; then
         echo "Cannot combine --no-color with --random-color"
         exit 1
@@ -171,11 +173,19 @@ while test $# -gt 0; do
       export TODO_RANDOM_COLOR=1
       shift
       ;;
+    --no-local)
+      no_local=true
+      shift
+      ;;
     *)
       break
       ;;
   esac
 done
+
+if [ "$no_local" = "false" ]; then
+  [ -f "./.todo" ] && todo_task_file="./.todo"
+fi
 
 main
 
