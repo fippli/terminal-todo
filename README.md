@@ -8,6 +8,8 @@ bash install.sh
 ```
 from the root folder of the project.
 
+![install.gif](./img/install.gif)
+
 ## Basic usage
 run
 ```
