@@ -5,16 +5,16 @@
 # The relative paths to the project files can now  be used
 # like so $lib_dir/someProjectScript.sh
 this_path=${BASH_SOURCE[0]}
-lib_path=$(readlink ${this_path})
-lib_dir=$(dirname $lib_path)
+lib_path="$(readlink "$this_path")"
+lib_dir="$(dirname "$lib_path")"
 
-TODO_TASK_FILE="${TODO_TASK_FILE:-$lib_dir/todo.txt}"
-TODO_HEADER_FILE="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
-WARNINGS_SHOWED=false
+todo_task_file="${TODO_TASK_FILE:-$lib_dir/todo.txt}"
+todo_header_file="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
+warnings_showed=false
 
 main_menu () {
   printf "\n\n"
-  [ -f "$TODO_HEADER_FILE" ] && "$TODO_HEADER_FILE"
+  [ -f "$todo_header_file" ] && "$todo_header_file"
   echo "   "
   echo "       - - - - - - - - - - - - - - - - - - - - - -    "
   read_tasks
@@ -35,9 +35,9 @@ main_menu () {
 }
 
 numeric_or_print_error () {
-  NUMBER="$1"
+  number="$1"
 
-  if ! [[ "$NUMBER" =~ ^[0-9]+$ ]] ; then
+  if ! [[ "$number" =~ ^[0-9]+$ ]] ; then
     echo ""
     echo "       ⚠️  Not a valid number!"
 
@@ -50,11 +50,11 @@ numeric_or_print_error () {
 
 add_task () {
   read -r -e -p "       ENTER NEW TASK: " task
-  echo "${task}" >> "$TODO_TASK_FILE"
+  echo "${task}" >> "$todo_task_file"
 }
 
 edit_task () {
-  if [ "${BASH_VERSINFO:-0}" -lt 4 ] && [ "$WARNINGS_SHOWED" = false ]; then
+  if [ "${BASH_VERSINFO:-0}" -lt 4 ] && [ "$warnings_showed" = false ]; then
     echo ""
     echo "       ⚠️  Your version of bash doesn't support the -i flag to 'read'."
     echo "       Because of this your task cannot be pre-filled for editing."
@@ -63,16 +63,16 @@ edit_task () {
        version of bash with 'brew install bash'."
     echo ""
 
-    WARNINGS_SHOWED=true
+    warnings_showed=true
   fi
 
-  read -r -e -p "       SELECT TASK TO EDIT: " LINE
+  read -r -e -p "       SELECT TASK TO EDIT: " line
 
-  if numeric_or_print_error "$LINE" == 0; then
+  if numeric_or_print_error "$line" == 0; then
       return
   fi
 
-  task=$(sed -n "${LINE}"p "$TODO_TASK_FILE")
+  task=$(sed -n "${line}"p "$todo_task_file")
 
   # Don't (try) to pre fill the prompt on old bash versions.
   if [ "${BASH_VERSINFO:-0}" -lt 4 ]; then
@@ -83,33 +83,33 @@ edit_task () {
 
   # Since macOS comes with old BSD version of sed we cannot insert at a specific
   # line, instead we replace it with regexp.
-  # With GNU sed this would be 'sed -i.bak "${LINE}i${LINE} $edited_task"'
-  sed -i.bak "${LINE}s/.*/$edited_task/" "$TODO_TASK_FILE"
+  # With GNU sed this would be 'sed -i.bak "${line}i${line} $EDITED_TASK"'
+  sed -i.bak "${line}s/.*/$edited_task/" "$todo_task_file"
 }
 
 read_tasks () {
   # Count the lines ins the file
-  LINES=$( wc -l < "$TODO_TASK_FILE" )
+  lines=$( wc -l < "$todo_task_file" )
   i=0
   echo ""
-  while [[ $i -lt $((LINES)) ]]; do
+  while [[ $i -lt $((lines)) ]]; do
     i=$((i+1))
-    printf "       [%s] %s\n\n" "$i"  "$( sed "${i}q;d" "$TODO_TASK_FILE" )"
+    printf "       [%s] %s\n\n" "$i"  "$( sed "${i}q;d" "$todo_task_file" )"
   done
 }
 
 delete_task () {
-  read -r -e -p "       SELECT TASK TO DELETE: " DEL
+  read -r -e -p "       SELECT TASK TO DELETE: " del
 
-  if numeric_or_print_error "$DEL" == 0; then
+  if numeric_or_print_error "$del" == 0; then
       return
   fi
 
-  sed -i.bak "${DEL}d" "$TODO_TASK_FILE"
+  sed -i.bak "${del}d" "$todo_task_file"
 }
 
 main () {
-  [ -f "$TODO_TASK_FILE" ] || touch "$TODO_TASK_FILE"
+  [ -f "$todo_task_file" ] || touch "$todo_task_file"
 
   while [[ ${choice} != "q" ]]; do
     clear
