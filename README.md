@@ -2,6 +2,8 @@
 
 TODO list for the terminal.
 
+[![asciicast](https://asciinema.org/a/7n6nHB7hbfNZhNmpP0CVepLMO.svg)](https://asciinema.org/a/7n6nHB7hbfNZhNmpP0CVepLMO)
+
 ## Installation
 
 Get a copy of the code and run `make`:
@@ -34,8 +36,6 @@ run:
 ```sh
 make TODO_INSTALL_DIR="$HOME/.bin" uninstall
 ```
-
-<img src="./img/install.gif" width="600"/>
 
 ## Basic usage
 
