@@ -19,7 +19,8 @@ main_menu () {
   echo "       - - - - - - - - - - - - - - - - - - - - - -    "
   read_tasks
   echo "       - - - - - - - - - - - - - - - - - - - - - - "
-  read -r -e -p  "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT : " choice
+  echo "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT"
+  read -s -n 1 choice
 
   if [[ ${choice} == "a" ]]; then
     add_task
