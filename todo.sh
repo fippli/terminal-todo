@@ -26,7 +26,8 @@ main_menu () {
   fi
 
   if [[ ${choice} == "d" ]]; then
-    delete_task
+    # delete_task
+    bash "${lib_dir}/delete_task.sh" "$todo_task_file"
   fi
 
   if [[ ${choice} == "e" ]]; then
@@ -98,15 +99,15 @@ edit_task () {
   sed -i.bak "${line}s/.*/$edited_task/" "$todo_task_file"
 }
 
-delete_task () {
-  read -r -e -p "       SELECT TASK TO DELETE: " del
+# delete_task () {
+#   read -r -e -p "       SELECT TASK TO DELETE: " del
 
-  if numeric_or_print_error "$del" == 0; then
-      return
-  fi
+#   if numeric_or_print_error "$del" == 0; then
+#       return
+#   fi
 
-  sed -i.bak "${del}d" "$todo_task_file"
-}
+#   sed -i.bak "${del}d" "$todo_task_file"
+# }
 
 main () {
   [ -f "$todo_task_file" ] || touch "$todo_task_file"

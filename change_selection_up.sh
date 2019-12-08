@@ -4,7 +4,7 @@ todo_task_file=$1
 i=0
 lines=$( wc -l < "$todo_task_file" )
 
-while [[ $i -lt $((lines)) ]]; do
+while ((i < lines)); do
   line_number=$((i+1))
   task_line="$( sed "${line_number}q;d" "$todo_task_file" )"
   task_status="$(echo $task_line| cut -d']' -f 1)"
