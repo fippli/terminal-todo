@@ -19,7 +19,6 @@ while ((i > 0)); do
     next_task_line="$(sed "${next_line_number}q;d" "$todo_task_file")"
     next_task_text="$(echo "$next_task_line"| cut -d']' -f 2)"
     select_task_update="[>]${next_task_text}"
-    echo "$select_task_update"
     sed -i '' "${next_line_number} s/.*/${select_task_update}/" "$todo_task_file"
   fi
 

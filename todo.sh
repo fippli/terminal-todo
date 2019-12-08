@@ -25,31 +25,38 @@ main_menu () {
   echo ""
 
   if [[ ${choice} == "a" ]]; then
-    bash "${lib_dir}/add_task.sh"
+    # shellcheck source=/dev/null
+    . "${lib_dir}/add_task.sh"
   fi
 
   if [[ ${choice} == "d" ]]; then
-    bash "${lib_dir}/delete_task.sh"
+    # shellcheck source=/dev/null
+    . "${lib_dir}/delete_task.sh"
   fi
 
   if [[ ${choice} == "e" ]]; then
-    bash "${lib_dir}/edit_task.sh"
+    # shellcheck source=/dev/null
+    . "${lib_dir}/edit_task.sh"
   fi
 
   if [[ ${choice} == "w" ]]; then
-    bash "${lib_dir}/change_selection_up.sh"
+    # shellcheck source=/dev/null
+    . "${lib_dir}/change_selection_up.sh"
   fi
 
   if [[ ${choice} == "k" ]]; then
-    bash "${lib_dir}/change_selection_up.sh"
+    # shellcheck source=/dev/null
+    . "${lib_dir}/change_selection_up.sh"
   fi
 
   if [[ ${choice} == "s" ]]; then
-    bash "${lib_dir}/change_selection_down.sh"
+    # shellcheck source=/dev/null
+    . "${lib_dir}/change_selection_down.sh"
   fi
 
   if [[ ${choice} == "j" ]]; then
-    bash "${lib_dir}/change_selection_down.sh"
+    # shellcheck source=/dev/null
+    . "${lib_dir}/change_selection_down.sh"
   fi
 }
 
