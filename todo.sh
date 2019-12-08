@@ -7,9 +7,11 @@
 this_path=${BASH_SOURCE[0]}
 lib_dir="$(dirname "$this_path")"
 
-todo_task_file="${TODO_TASK_FILE:-$lib_dir/.todo}"
+export todo_task_file="${TODO_TASK_FILE:-$lib_dir/.todo}"
 todo_header_file="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
 no_local=false # Skip reading of local .todo file
+
+export padding="       "
 
 main_menu () {
   printf "\n\n"
@@ -23,31 +25,31 @@ main_menu () {
   echo ""
 
   if [[ ${choice} == "a" ]]; then
-    bash "${lib_dir}/add_task.sh" "$todo_task_file"
+    bash "${lib_dir}/add_task.sh"
   fi
 
   if [[ ${choice} == "d" ]]; then
-    bash "${lib_dir}/delete_task.sh" "$todo_task_file"
+    bash "${lib_dir}/delete_task.sh"
   fi
 
   if [[ ${choice} == "e" ]]; then
-    bash "${lib_dir}/edit_task.sh" "$todo_task_file"
+    bash "${lib_dir}/edit_task.sh"
   fi
 
   if [[ ${choice} == "w" ]]; then
-    bash "${lib_dir}/change_selection_up.sh" "$todo_task_file"
+    bash "${lib_dir}/change_selection_up.sh"
   fi
 
   if [[ ${choice} == "k" ]]; then
-    bash "${lib_dir}/change_selection_up.sh" "$todo_task_file"
+    bash "${lib_dir}/change_selection_up.sh"
   fi
 
   if [[ ${choice} == "s" ]]; then
-    bash "${lib_dir}/change_selection_down.sh" "$todo_task_file"
+    bash "${lib_dir}/change_selection_down.sh"
   fi
 
   if [[ ${choice} == "l" ]]; then
-    bash "${lib_dir}/change_selection_down.sh" "$todo_task_file"
+    bash "${lib_dir}/change_selection_down.sh"
   fi
 }
 

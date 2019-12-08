@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-todo_task_file=$1
 read -r -e -p "       ENTER NEW TASK: " task
 
 # Unselect the other tasks. Only the new task

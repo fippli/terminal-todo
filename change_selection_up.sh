@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-todo_task_file=$1
 i=0
 lines=$(wc -l < "$todo_task_file")
 

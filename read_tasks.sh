@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-todo_task_file=$1
-padding="       "
 bold=$(tput bold)
 italic="\e[3m"
 normal=$(tput sgr0)

@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-todo_task_file=$1
 warnings_showed=false
-padding="       "
 
 if [ "${BASH_VERSINFO:-0}" -lt 4 ] && [ "$warnings_showed" = false ]; then
   echo ""
