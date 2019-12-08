@@ -48,7 +48,7 @@ main_menu () {
     bash "${lib_dir}/change_selection_down.sh"
   fi
 
-  if [[ ${choice} == "l" ]]; then
+  if [[ ${choice} == "j" ]]; then
     bash "${lib_dir}/change_selection_down.sh"
   fi
 }
