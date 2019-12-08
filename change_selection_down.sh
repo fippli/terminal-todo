@@ -15,7 +15,7 @@ while ((i > 0)); do
     unselect_task_update="[<]${task_text}"
     sed -i '' "${line_number} s/.*/${unselect_task_update}/" "$todo_task_file"
     
-    # Select the previous line
+    # Select the next line
     next_line_number=$((line_number+1))
     next_task_line="$( sed "${next_line_number}q;d" "$todo_task_file" )"
     next_task_text="$(echo $next_task_line| cut -d']' -f 2)"
