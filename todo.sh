@@ -17,12 +17,12 @@ main_menu () {
   [ -f "$todo_header_file" ] && "$todo_header_file"
   echo "   "
   echo "       - - - - - - - - - - - - - - - - - - - - - -    "
-  read_tasks
+  bash "$lib_dir/read_tasks.sh" $todo_task_file
   echo "       - - - - - - - - - - - - - - - - - - - - - - "
   read -r -e -p  "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT : " choice
 
   if [[ ${choice} == "a" ]]; then
-    add_task
+    bash "${lib_dir}/add_task.sh" "$todo_task_file"
   fi
 
   if [[ ${choice} == "d" ]]; then
@@ -31,6 +31,22 @@ main_menu () {
 
   if [[ ${choice} == "e" ]]; then
     edit_task
+  fi
+
+  if [[ ${choice} == "w" ]]; then
+    bash "${lib_dir}/change_selection_up.sh" "$todo_task_file"
+  fi
+
+  if [[ ${choice} == "k" ]]; then
+    bash "${lib_dir}/change_selection_up.sh" "$todo_task_file"
+  fi
+
+  if [[ ${choice} == "s" ]]; then
+    bash "${lib_dir}/change_selection_down.sh" "$todo_task_file"
+  fi
+
+  if [[ ${choice} == "l" ]]; then
+    bash "${lib_dir}/change_selection_down.sh" "$todo_task_file"
   fi
 }
 
@@ -46,11 +62,6 @@ numeric_or_print_error () {
   fi
 
   return 1
-}
-
-add_task () {
-  read -r -e -p "       ENTER NEW TASK: " task
-  echo "${task}" >> "$todo_task_file"
 }
 
 edit_task () {
@@ -85,17 +96,6 @@ edit_task () {
   # line, instead we replace it with regexp.
   # With GNU sed this would be 'sed -i.bak "${line}i${line} $EDITED_TASK"'
   sed -i.bak "${line}s/.*/$edited_task/" "$todo_task_file"
-}
-
-read_tasks () {
-  # Count the lines ins the file
-  lines=$( wc -l < "$todo_task_file" )
-  i=0
-  echo ""
-  while [[ $i -lt $((lines)) ]]; do
-    i=$((i+1))
-    printf "       [%s] %s\n\n" "$i"  "$( sed "${i}q;d" "$todo_task_file" )"
-  done
 }
 
 delete_task () {
