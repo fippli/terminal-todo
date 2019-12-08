@@ -17,13 +17,13 @@ if [ "${BASH_VERSINFO:-0}" -lt 4 ] && [ "$warnings_showed" = false ]; then
 fi
 
 i=0
-lines=$( wc -l < "$todo_task_file" )
+lines=$(wc -l < "$todo_task_file")
 
 # Find the line number of the selected task
 while ((i < lines)); do
   line_number=$((i+1))
-  task_line="$( sed "${line_number}q;d" "$todo_task_file" )"
-  task_status="$(echo $task_line| cut -d']' -f 1)"
+  task_line="$(sed "${line_number}q;d" "$todo_task_file")"
+  task_status="$(echo "$task_line"| cut -d']' -f 1)"
 
   if [[ "$task_status" == "[>" ]]; then
     edited_line_number=$line_number
@@ -33,7 +33,7 @@ while ((i < lines)); do
 done
 
 edited_task_line=$(sed -n "${edited_line_number}"p "$todo_task_file")
-edited_task_text="$(echo $edited_task_line| cut -d']' -f 2)"
+edited_task_text="$(echo "$edited_task_line"| cut -d']' -f 2)"
 
 # Don't (try) to pre fill the prompt on old bash versions.
 if [ "${BASH_VERSINFO:-0}" -lt 4 ]; then

@@ -16,7 +16,7 @@ main_menu () {
   [ -f "$todo_header_file" ] && "$todo_header_file"
   echo "   "
   echo "       - - - - - - - - - - - - - - - - - - - - - -    "
-  bash "$lib_dir/read_tasks.sh" $todo_task_file
+  bash "$lib_dir/read_tasks.sh" "$todo_task_file"
   echo "       - - - - - - - - - - - - - - - - - - - - - - "
   echo -n "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT: "
   read -s -r -n 1 choice
