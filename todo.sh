@@ -18,7 +18,9 @@ main_menu () {
   echo "       - - - - - - - - - - - - - - - - - - - - - -    "
   bash "$lib_dir/read_tasks.sh" $todo_task_file
   echo "       - - - - - - - - - - - - - - - - - - - - - - "
-  read -r -e -p  "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT : " choice
+  echo -n "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT: "
+  read -s -r -n 1 choice
+  echo ""
 
   if [[ ${choice} == "a" ]]; then
     bash "${lib_dir}/add_task.sh" "$todo_task_file"
