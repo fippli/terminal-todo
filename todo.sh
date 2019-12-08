@@ -9,7 +9,6 @@ lib_dir="$(dirname "$this_path")"
 
 todo_task_file="${TODO_TASK_FILE:-$lib_dir/.todo}"
 todo_header_file="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
-warnings_showed=false
 no_local=false # Skip reading of local .todo file
 
 main_menu () {
@@ -26,12 +25,11 @@ main_menu () {
   fi
 
   if [[ ${choice} == "d" ]]; then
-    # delete_task
     bash "${lib_dir}/delete_task.sh" "$todo_task_file"
   fi
 
   if [[ ${choice} == "e" ]]; then
-    edit_task
+    bash "${lib_dir}/edit_task.sh" "$todo_task_file"
   fi
 
   if [[ ${choice} == "w" ]]; then
@@ -64,50 +62,6 @@ numeric_or_print_error () {
 
   return 1
 }
-
-edit_task () {
-  if [ "${BASH_VERSINFO:-0}" -lt 4 ] && [ "$warnings_showed" = false ]; then
-    echo ""
-    echo "       ⚠️  Your version of bash doesn't support the -i flag to 'read'."
-    echo "       Because of this your task cannot be pre-filled for editing."
-    echo ""
-    echo "       If you're on macOS, remember that you can install a newer
-       version of bash with 'brew install bash'."
-    echo ""
-
-    warnings_showed=true
-  fi
-
-  read -r -e -p "       SELECT TASK TO EDIT: " line
-
-  if numeric_or_print_error "$line" == 0; then
-      return
-  fi
-
-  task=$(sed -n "${line}"p "$todo_task_file")
-
-  # Don't (try) to pre fill the prompt on old bash versions.
-  if [ "${BASH_VERSINFO:-0}" -lt 4 ]; then
-    read -r -e -p "       EDIT TASK: " edited_task
-  else
-    read -r -e -p "       EDIT TASK: " -i "$task" edited_task
-  fi
-
-  # Since macOS comes with old BSD version of sed we cannot insert at a specific
-  # line, instead we replace it with regexp.
-  # With GNU sed this would be 'sed -i.bak "${line}i${line} $EDITED_TASK"'
-  sed -i.bak "${line}s/.*/$edited_task/" "$todo_task_file"
-}
-
-# delete_task () {
-#   read -r -e -p "       SELECT TASK TO DELETE: " del
-
-#   if numeric_or_print_error "$del" == 0; then
-#       return
-#   fi
-
-#   sed -i.bak "${del}d" "$todo_task_file"
-# }
 
 main () {
   [ -f "$todo_task_file" ] || touch "$todo_task_file"
