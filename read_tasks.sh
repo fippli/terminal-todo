@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-bold=$(tput bold)
 italic="\e[3m"
 normal=$(tput sgr0)
-cyan="\033[0;36m"
-background_color="\e[46m"
+background_color="\033[46m"
 reset_color="\033[0m"
 
 lines=$(wc -l < "$todo_task_file")
