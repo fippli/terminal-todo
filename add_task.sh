@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-read -r -e -p "       ENTER NEW TASK: " task
+read -r -e -p "${padding}ENTER NEW TASK: " task
 
 # Unselect the other tasks. Only the new task
 # should be selected.

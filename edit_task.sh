@@ -4,10 +4,10 @@ warnings_showed=false
 
 if [ "${BASH_VERSINFO:-0}" -lt 4 ] && [ "$warnings_showed" = false ]; then
   echo ""
-  echo "       ⚠️  Your version of bash doesn't support the -i flag to 'read'."
-  echo "       Because of this your task cannot be pre-filled for editing."
+  echo "${padding}⚠️  Your version of bash doesn't support the -i flag to 'read'."
+  echo "${padding}Because of this your task cannot be pre-filled for editing."
   echo ""
-  echo "       If you're on macOS, remember that you can install a newer
+  echo "${padding}If you're on macOS, remember that you can install a newer
       version of bash with 'brew install bash'."
   echo ""
 
