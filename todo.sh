@@ -13,6 +13,8 @@ no_local=false # Skip reading of local .todo file
 
 # Don't know if there is a better way to do this??
 # shellcheck source=/dev/null
+. "${lib_dir}/read_tasks.sh"
+# shellcheck source=/dev/null
 . "${lib_dir}/add_task.sh"
 # shellcheck source=/dev/null
 . "${lib_dir}/delete_task.sh"
@@ -35,7 +37,7 @@ main_menu () {
   [ -f "$todo_header_file" ] && "$todo_header_file"
   echo "   "
   echo "       - - - - - - - - - - - - - - - - - - - - - -    "
-  bash "$lib_dir/read_tasks.sh" "$todo_task_file"
+  read_tasks
   echo "       - - - - - - - - - - - - - - - - - - - - - - "
   echo -n "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT: "
   read -s -r -n 1 choice
