@@ -6,12 +6,29 @@
 # like so $lib_dir/someProjectScript.sh
 this_path=${BASH_SOURCE[0]}
 lib_dir="$(dirname "$this_path")"
-
 export todo_task_file="${TODO_TASK_FILE:-$lib_dir/.todo}"
+export padding="       "
 todo_header_file="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
 no_local=false # Skip reading of local .todo file
 
-export padding="       "
+# Don't know if there is a better way to do this??
+# shellcheck source=/dev/null
+. "${lib_dir}/add_task.sh"
+# shellcheck source=/dev/null
+. "${lib_dir}/delete_task.sh"
+# shellcheck source=/dev/null
+. "${lib_dir}/edit_task.sh"
+# shellcheck source=/dev/null
+. "${lib_dir}/change_selection_up.sh"
+# shellcheck source=/dev/null
+. "${lib_dir}/change_selection_up.sh"
+# shellcheck source=/dev/null
+. "${lib_dir}/change_selection_down.sh"
+# shellcheck source=/dev/null
+. "${lib_dir}/change_selection_down.sh"
+# shellcheck source=/dev/null
+. "$lib_dir/todo_from_file.sh"
+
 
 main_menu () {
   printf "\n\n"
@@ -25,38 +42,31 @@ main_menu () {
   echo ""
 
   if [[ ${choice} == "a" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/add_task.sh"
+    add_task
   fi
 
   if [[ ${choice} == "d" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/delete_task.sh"
+    delete_task
   fi
 
   if [[ ${choice} == "e" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/edit_task.sh"
+    edit_task
   fi
 
   if [[ ${choice} == "w" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/change_selection_up.sh"
+    change_selection_up
   fi
 
   if [[ ${choice} == "k" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/change_selection_up.sh"
+    change_selection_up
   fi
 
   if [[ ${choice} == "s" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/change_selection_down.sh"
+    change_selection_down
   fi
 
   if [[ ${choice} == "j" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/change_selection_down.sh"
+    change_selection_down
   fi
 }
 
@@ -101,7 +111,7 @@ while test $# -gt 0; do
       exit 0
       ;;
     --this-dir*)
-      "$lib_dir/todo_from_file.sh"
+      todo_from_file
       shift
       exit 0
       ;;
