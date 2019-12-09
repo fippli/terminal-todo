@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-italic="\e[3m"
-normal=$(tput sgr0)
+color="\033[30m"
 background_color="\033[46m"
 reset_color="\033[0m"
 
@@ -17,9 +16,9 @@ while [[ $i -lt $((lines)) ]]; do
   
   if [ "$task_status" = "[>" ]; then
     # The selected task should be bold
-    printf "${padding}${italic}${background_color} %s ${normal}${reset_color}\n\n" "$task"  
+    printf "${padding}${background_color}${color} %s ${reset_color}\n\n" "$task"  
   else
     # All other tasks should be normal
-    printf "${normal}${padding}%s\n\n" "$task"
+    printf "${padding}%s\n\n" "$task"
   fi
 done
