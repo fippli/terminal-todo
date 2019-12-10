@@ -24,20 +24,7 @@ edit_task () {
     task_line="$(sed "${line_number}q;d" "$todo_task_file")"
     task_status="$(echo "$task_line"| cut -d']' -f 1)"
 
-    if [[ "$task_status" == "[>" ]]; then
-      edited_line_number=$line_number
-    fi
-
-  i=0
-  lines=$(wc -l < "$todo_task_file")
-
-  # Find the line number of the selected task
-  while ((i < lines)); do
-    line_number=$((i+1))
-    task_line="$(sed "${line_number}q;d" "$todo_task_file")"
-    task_status="$(echo "$task_line"| cut -d']' -f 1)"
-
-    if [[ "$task_status" == "[>" ]]; then
+    if [ "$task_status" = "[>" ]; then
       edited_line_number=$line_number
     fi
 

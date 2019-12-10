@@ -2,29 +2,27 @@
 
 change_selection_down () {
   lines=$(wc -l < "$todo_task_file")
-  i=$lines
+  i=0
 
-  while ((i > 0)); do
-    line_number=$i
-    task_line="$(sed "${line_number}q;d" "$todo_task_file")"
-    task_status="$(echo "$task_line"| cut -d']' -f 1)"
-    task_text="$(echo "$task_line"| cut -d']' -f 2)"
+  while ((i < lines)); do
+    line_number=$((i + 1))
+    task_status="$(get_task_status "${line_number}")"
 
-    if [[ "$task_status" == "[>" ]]; then
+    if [ "$task_status" = "[>" ]; then
       # Unselect the selected line
-      unselect_task_update="[<]${task_text}"
-      sed -i '' "${line_number} s/.*/${unselect_task_update}/" "$todo_task_file"
+      set_task_status ${line_number} "[<]"
       
       # Select the next line
-      next_line_number=$((line_number % lines))
-      next_line_number=$((next_line_number + 1))
-      next_task_line="$(sed "${next_line_number}q;d" "$todo_task_file")"
-      next_task_text="$(echo "$next_task_line"| cut -d']' -f 2)"
-      select_task_update="[>]${next_task_text}"
-      sed -i '' "${next_line_number} s/.*/${select_task_update}/" "$todo_task_file"
+      next_line_number=$((line_number + 1))
+      
+      if ((next_line_number > lines)); then
+        next_line_number=1
+      fi
+
+      set_task_status "${next_line_number}" "[>]"
       break
     fi
 
-    i=$((i-1))
+    i=$((i + 1))
   done
 }

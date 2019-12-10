@@ -6,18 +6,14 @@ delete_task () {
 
   while ((i < lines)); do
     line_number=$((i+1))
-    task_line="$(sed "${line_number}q;d" "$todo_task_file")"
-    task_status="$(echo "$task_line"| cut -d']' -f 1)"
+    task_status="$(get_task_status "${line_number}")"
 
-    if [[ "$task_status" == "[>" ]]; then
+    if [ "${task_status}" = "[>" ]; then
       # Unselect the selected line
       sed -i.bak "${line_number}d" "$todo_task_file"
       
       # Select the first line
-      first_task_line="$(sed "1q;d" "$todo_task_file")"
-      first_task_text="$(echo "$first_task_line"| cut -d']' -f 2)"
-      first_task_update="[>]${first_task_text}"
-      sed -i '' "1 s/.*/${first_task_update}/" "$todo_task_file"
+      set_task_status "1" "[>]"
     fi
 
     i=$((i+1))

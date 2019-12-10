@@ -9,11 +9,10 @@ read_tasks () {
   i=0
   echo ""
 
-  while [[ $i -lt $((lines)) ]]; do
+  while ((i < lines)); do
     i=$((i+1))
-    task_line="$(sed "${i}q;d" "$todo_task_file")"
-    task="$(echo "$task_line"| cut -d']' -f 2)"
-    task_status="$(echo "$task_line"| cut -d']' -f 1)"
+    task="$(get_task_text "${i}")"
+    task_status="$(get_task_status "${i}")"
     
     if [ "$task_status" = "[>" ]; then
       # The selected task should be bold
