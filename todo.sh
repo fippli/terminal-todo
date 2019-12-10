@@ -18,9 +18,6 @@ done
 
 todo_task_file="${TODO_TASK_FILE:-$this_dir/.todo}"
 todo_header_file="${TODO_HEADER_FILE:-$this_dir/table_head.sh}"
-
-# todo_task_file="${TODO_TASK_FILE:-$this_dir/.todo}"
-# todo_header_file="${TODO_HEADER_FILE:-$this_dir/table_head.sh}"
 no_local=false # Skip reading of local .todo file
 padding="        "
 
@@ -107,12 +104,12 @@ while test $# -gt 0; do
       echo " "
       exit 0
       ;;
-    --this-dir*)
+    --this-dir)
       todo_from_file
       shift
       exit 0
       ;;
-    --task-file)
+    --task-file*)
       if [[ "$1" =~ ^[^=]+$ ]]; then
         shift
       fi
