@@ -117,7 +117,7 @@ while test $# -gt 0; do
       shift
       exit 0
       ;;
-    --task-file*)
+    --task-file)
       if [[ "$1" =~ ^[^=]+$ ]]; then
         shift
       fi
