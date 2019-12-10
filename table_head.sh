@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-echo "${padding}• • • •    • • • •    • • • •      • • • •  "
-echo "${padding}• • • •   • • • • •   • •  • •    • • • • • "
-echo "${padding}  • •    • •     • •  • •   • •  • •     • •"
-echo "${padding}  • •     • • • • •   • •  • •    • • • • • "
-echo "${padding}  • •      • • • •    • • • •      • • • •  "
+header () {
+  echo "${padding}• • • •    • • • •    • • • •      • • • •  "
+  echo "${padding}• • • •   • • • • •   • •  • •    • • • • • "
+  echo "${padding}  • •    • •     • •  • •   • •  • •     • •"
+  echo "${padding}  • •     • • • • •   • •  • •    • • • • • "
+  echo "${padding}  • •      • • • •    • • • •      • • • •  "
+}

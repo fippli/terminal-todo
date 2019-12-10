@@ -9,7 +9,7 @@ delete_task () {
     task_status="$(get_task_status "${line_number}")"
 
     if [ "${task_status}" = "[>" ]; then
-      # Unselect the selected line
+      # Delete the selected line
       sed -i.bak "${line_number}d" "$todo_task_file"
       
       # Select the first line

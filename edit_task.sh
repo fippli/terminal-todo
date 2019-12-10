@@ -21,18 +21,16 @@ edit_task () {
   # Find the line number of the selected task
   while ((i < lines)); do
     line_number=$((i+1))
-    task_line="$(sed "${line_number}q;d" "$todo_task_file")"
-    task_status="$(echo "$task_line"| cut -d']' -f 1)"
+    task_status="$(get_task_status "${line_number}")"
 
     if [ "$task_status" = "[>" ]; then
       edited_line_number=$line_number
     fi
 
-    i=$((i+1))
+    i=$((i + 1))
   done
 
-  edited_task_line=$(sed -n "${edited_line_number}"p "$todo_task_file")
-  edited_task_text="$(echo "$edited_task_line"| cut -d']' -f 2)"
+  edited_task_text="$(get_task_text "${edited_line_number}")"
 
   # Don't (try) to pre fill the prompt on old bash versions.
   if [ "${BASH_VERSINFO:-0}" -lt 4 ]; then

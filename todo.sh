@@ -8,21 +8,20 @@ this_path=${BASH_SOURCE[0]}
 this_dir="$(dirname "$this_path")"
 this_file="$(basename "$this_path")"
 
-for src in *.sh; do
+
+for src in *.sh; do   
     if [ "$src" = "$this_file" ]; then
         continue
     fi
 
-    . "${this_dir}/${src}"
+    [ -f "$src" ] && . "$src"
 done
+
 
 todo_task_file="${TODO_TASK_FILE:-$this_dir/.todo}"
 todo_header_file="${TODO_HEADER_FILE:-$this_dir/table_head.sh}"
 no_local=false # Skip reading of local .todo file
 padding="        "
-
-. $todo_task_file
-. $todo_header_file
 
 main_menu () {
   printf "\n\n"
