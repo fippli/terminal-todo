@@ -47,16 +47,20 @@ set_colors() {
   C4="COLOR_5"
 }
 
-if [ -n "$TODO_NO_COLOR" ]; then
-  ansii_shadow
-else
-  if [ -n "$TODO_RANDOM_COLOR" ]; then
-    set_random_colors
+# Need to wrap this in a function to make the
+# padding varable available
+header () {
+  if [ -n "$TODO_NO_COLOR" ]; then
+    ansii_shadow
   else
-    set_colors
-  fi
+    if [ -n "$TODO_RANDOM_COLOR" ]; then
+      set_random_colors
+    else
+      set_colors
+    fi
 
-  ansii_shadow "${!C1}" "${!C2}" "${!C3}" "${!C4}"
-fi
+    ansii_shadow "${!C1}" "${!C2}" "${!C3}" "${!C4}"
+  fi
+}
 
 # vim: set ft=sh ts=2 sw=2 et:

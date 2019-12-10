@@ -3,43 +3,38 @@
 # To be able to separate the code into several files after creating a symlink
 # to ~/bin/todo the path to the source root is good to have.
 # The relative paths to the project files can now  be used
-# like so $lib_dir/someProjectScript.sh
+# like so $this_dir/someProjectScript.sh
 this_path=${BASH_SOURCE[0]}
-lib_dir="$(dirname "$this_path")"
-export todo_task_file="${TODO_TASK_FILE:-$lib_dir/.todo}"
-export padding="       "
-todo_header_file="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
+this_dir="$(dirname "$this_path")"
+this_file="$(basename "$this_path")"
+
+for src in *.sh; do
+    if [ "$src" = "$this_file" ]; then
+        continue
+    fi
+
+    . "${this_dir}/${src}"
+done
+
+todo_task_file="${TODO_TASK_FILE:-$this_dir/.todo}"
+todo_header_file="${TODO_HEADER_FILE:-$this_dir/table_head.sh}"
+
+# todo_task_file="${TODO_TASK_FILE:-$this_dir/.todo}"
+# todo_header_file="${TODO_HEADER_FILE:-$this_dir/table_head.sh}"
 no_local=false # Skip reading of local .todo file
+padding="        "
 
-# Don't know if there is a better way to do this??
-# shellcheck source=/dev/null
-. "${lib_dir}/read_tasks.sh"
-# shellcheck source=/dev/null
-. "${lib_dir}/add_task.sh"
-# shellcheck source=/dev/null
-. "${lib_dir}/delete_task.sh"
-# shellcheck source=/dev/null
-. "${lib_dir}/edit_task.sh"
-# shellcheck source=/dev/null
-. "${lib_dir}/change_selection_up.sh"
-# shellcheck source=/dev/null
-. "${lib_dir}/change_selection_up.sh"
-# shellcheck source=/dev/null
-. "${lib_dir}/change_selection_down.sh"
-# shellcheck source=/dev/null
-. "${lib_dir}/change_selection_down.sh"
-# shellcheck source=/dev/null
-. "$lib_dir/todo_from_file.sh"
-
+. $todo_task_file
+. $todo_header_file
 
 main_menu () {
   printf "\n\n"
-  [ -f "$todo_header_file" ] && "$todo_header_file"
+  [ -f "$todo_header_file" ] && header
   echo "   "
-  echo "       - - - - - - - - - - - - - - - - - - - - - -    "
+  echo "${padding}- - - - - - - - - - - - - - - - - - - - - -    "
   read_tasks
-  echo "       - - - - - - - - - - - - - - - - - - - - - - "
-  echo -n "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT: "
+  echo "${padding}- - - - - - - - - - - - - - - - - - - - - - "
+  echo -n "${padding}[A]DD / [D]ELETE / [E]DIT / [Q]UIT: "
   read -s -r -n 1 choice
   echo ""
 
@@ -77,9 +72,9 @@ numeric_or_print_error () {
 
   if ! [[ "$number" =~ ^[0-9]+$ ]] ; then
     echo ""
-    echo "       ⚠️  Not a valid number!"
+    echo "${padding}⚠️  Not a valid number!"
 
-    read -r -p "          Press any key to continue..."
+    read -r -p "${padding}Press any key to continue..."
     return 0
   fi
 
