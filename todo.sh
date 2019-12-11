@@ -9,8 +9,8 @@ this_dir="$(dirname "$this_path")"
 this_file="$(basename "$this_path")"
 
 
-for src in *.sh; do   
-    if [ "$src" = "$this_file" ]; then
+for src in "$this_dir/"*.sh; do   
+    if [ "$src" = "${this_dir}/${this_file}" ]; then
         continue
     fi
 
