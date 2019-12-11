@@ -22,17 +22,14 @@ no_local=false # Skip reading of local .todo file
 padding="        "
 
 main_menu () {
-  printf "\n\n"
-  [ -f "$todo_header_file" ] && header
-  echo "   "
-  echo "${padding}- - - - - - - - - - - - - - - - - - - - - -    "
-  read_tasks
-  echo "${padding}- - - - - - - - - - - - - - - - - - - - - - "
+  print_tasks
+  echo "${padding}[W/K] UP / [S/J] DOWN "
   echo -n "${padding}[A]DD / [D]ELETE / [E]DIT / [Q]UIT: "
   read -s -r -n 1 choice
   echo ""
 
   if [[ ${choice} == "a" ]]; then
+    print_tasks
     add_task
   fi
 
@@ -41,6 +38,7 @@ main_menu () {
   fi
 
   if [[ ${choice} == "e" ]]; then
+    print_tasks
     edit_task
   fi
 
