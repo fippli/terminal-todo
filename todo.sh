@@ -3,60 +3,61 @@
 # To be able to separate the code into several files after creating a symlink
 # to ~/bin/todo the path to the source root is good to have.
 # The relative paths to the project files can now  be used
-# like so $lib_dir/someProjectScript.sh
+# like so $this_dir/someProjectScript.sh
 this_path=${BASH_SOURCE[0]}
-lib_dir="$(dirname "$this_path")"
+this_dir="$(dirname "$this_path")"
 
-export todo_task_file="${TODO_TASK_FILE:-$lib_dir/.todo}"
-todo_header_file="${TODO_HEADER_FILE:-$lib_dir/table_head.sh}"
+for src in "$this_dir/"*.sh; do   
+    if [ "$src" = "$this_path" ]; then
+        continue
+    fi
+
+    [ -f "$src" ] && . "$src"
+done
+
+
+todo_task_file="${TODO_TASK_FILE:-$this_dir/.todo}"
+todo_header_file="${TODO_HEADER_FILE:-$this_dir/table_head.sh}"
 no_local=false # Skip reading of local .todo file
-
-export padding="       "
+padding="        "
 
 main_menu () {
   printf "\n\n"
-  [ -f "$todo_header_file" ] && "$todo_header_file"
+  [ -f "$todo_header_file" ] && header
   echo "   "
-  echo "       - - - - - - - - - - - - - - - - - - - - - -    "
-  bash "$lib_dir/read_tasks.sh" "$todo_task_file"
-  echo "       - - - - - - - - - - - - - - - - - - - - - - "
-  echo -n "       [A]DD / [D]ELETE / [E]DIT / [Q]UIT: "
+  echo "${padding}- - - - - - - - - - - - - - - - - - - - - -    "
+  read_tasks
+  echo "${padding}- - - - - - - - - - - - - - - - - - - - - - "
+  echo -n "${padding}[A]DD / [D]ELETE / [E]DIT / [Q]UIT: "
   read -s -r -n 1 choice
   echo ""
 
   if [[ ${choice} == "a" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/add_task.sh"
+    add_task
   fi
 
   if [[ ${choice} == "d" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/delete_task.sh"
+    delete_task
   fi
 
   if [[ ${choice} == "e" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/edit_task.sh"
+    edit_task
   fi
 
   if [[ ${choice} == "w" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/change_selection_up.sh"
+    change_selection_up
   fi
 
   if [[ ${choice} == "k" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/change_selection_up.sh"
+    change_selection_up
   fi
 
   if [[ ${choice} == "s" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/change_selection_down.sh"
+    change_selection_down
   fi
 
   if [[ ${choice} == "j" ]]; then
-    # shellcheck source=/dev/null
-    . "${lib_dir}/change_selection_down.sh"
+    change_selection_down
   fi
 }
 
@@ -65,9 +66,9 @@ numeric_or_print_error () {
 
   if ! [[ "$number" =~ ^[0-9]+$ ]] ; then
     echo ""
-    echo "       ⚠️  Not a valid number!"
+    echo "${padding}⚠️  Not a valid number!"
 
-    read -r -p "          Press any key to continue..."
+    read -r -p "${padding}Press any key to continue..."
     return 0
   fi
 
@@ -100,8 +101,8 @@ while test $# -gt 0; do
       echo " "
       exit 0
       ;;
-    --this-dir*)
-      "$lib_dir/todo_from_file.sh"
+    --this-dir)
+      todo_from_file
       shift
       exit 0
       ;;
