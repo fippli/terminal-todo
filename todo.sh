@@ -6,11 +6,9 @@
 # like so $this_dir/someProjectScript.sh
 this_path=${BASH_SOURCE[0]}
 this_dir="$(dirname "$this_path")"
-this_file="$(basename "$this_path")"
-
 
 for src in "$this_dir/"*.sh; do   
-    if [ "$src" = "${this_dir}/${this_file}" ]; then
+    if [ "$src" = "$this_path" ]; then
         continue
     fi
 
