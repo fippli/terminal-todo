@@ -14,7 +14,9 @@ read_tasks () {
     task="$(get_task_text "${i}")"
     task_status="$(get_task_status "${i}")"
     
-    if [ "$task_status" = "[>" ]; then
+    if [ "$task_status" =  ":" ]; then
+      continue
+    elif [ "$task_status" = ">" ]; then
       # The selected task should be bold
       printf "${padding}${background_color}${color} %s ${reset_color}\n\n" "$task"  
     else

@@ -144,6 +144,10 @@ while test $# -gt 0; do
       no_local=true
       shift
       ;;
+    --describe)
+      describe
+      shift
+      ;;
     *)
       break
       ;;

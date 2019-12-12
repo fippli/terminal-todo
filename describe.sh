@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-edit_task () {
+edit_meta_row () {
+  field_name="${1}"
+
   warnings_showed=false
 
   if [ "${BASH_VERSINFO:-0}" -lt 4 ] && [ "$warnings_showed" = false ]; then
@@ -45,4 +47,5 @@ edit_task () {
   # line, instead we replace it with regexp.
   # With GNU sed this would be 'sed -i.bak "${line}i${line} $EDITED_TASK"'
   sed -i.bak "${edited_line_number}s/.*/$edited_task_update/" "$todo_task_file"
+
 }

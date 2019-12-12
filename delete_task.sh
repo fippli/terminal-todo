@@ -8,7 +8,7 @@ delete_task () {
     line_number=$((i+1))
     task_status="$(get_task_status "${line_number}")"
 
-    if [ "${task_status}" = "[>" ]; then
+    if [ "${task_status}" = ">" ]; then
       # Delete the selected line
       sed -i.bak "${line_number}d" "$todo_task_file"
       

@@ -8,7 +8,7 @@ change_selection_down () {
     line_number=$((i + 1))
     task_status="$(get_task_status "${line_number}")"
 
-    if [ "$task_status" = "[>" ]; then
+    if [ "$task_status" = ">" ]; then
       # Unselect the selected line
       set_task_status ${line_number} "[<]"
       
