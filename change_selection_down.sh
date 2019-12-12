@@ -10,16 +10,11 @@ change_selection_down () {
 
     if [ "$task_status" = ">" ]; then
       # Unselect the selected line
-      set_task_status ${line_number} "[<]"
+      set_task_status ${line_number} "<"
       
       # Select the next line
       next_line_number=$((line_number + 1))
-      
-      if ((next_line_number > lines)); then
-        next_line_number=1
-      fi
-
-      set_task_status "${next_line_number}" "[>]"
+      select_first_available_task "${next_line_number}"
       break
     fi
 

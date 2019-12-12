@@ -13,7 +13,7 @@ delete_task () {
       sed -i.bak "${line_number}d" "$todo_task_file"
       
       # Select the first line
-      set_task_status "1" "[>]"
+      select_first_available_task "${line_number}"
     fi
 
     i=$((i+1))

@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 edit_meta_row () {
+  # The first input should be the name of the edited field
+  # e.g. descripition for [:description]
   field_name="${1}"
-
   warnings_showed=false
 
   if [ "${BASH_VERSINFO:-0}" -lt 4 ] && [ "$warnings_showed" = false ]; then
@@ -17,31 +18,31 @@ edit_meta_row () {
     warnings_showed=true
   fi
 
-  i=0
+  line_number=1
   lines=$(wc -l < "$todo_task_file")
 
   # Find the line number of the selected task
-  while ((i < lines)); do
-    line_number=$((i+1))
+  while ((line_number < lines)); do
     task_status="$(get_task_status "${line_number}")"
+    line_field_name="$(get_field_name "${line_number}")"
 
-    if [ "$task_status" = ">" ]; then
+    if [ "$task_status" == ":" ] && [ "${field_name}" == "${line_field_name}" ]; then
       edited_line_number=$line_number
     fi
 
-    i=$((i + 1))
+    line_number=$((line_number + 1))
   done
 
   edited_task_text="$(get_task_text "${edited_line_number}")"
 
   # Don't (try) to pre fill the prompt on old bash versions.
   if [ "${BASH_VERSINFO:-0}" -lt 4 ]; then
-    read -r -e -p "${padding}EDIT TASK: " edited_task
+    read -r -e -p "${padding}EDIT DESCRIPTION: " edited_task
   else
-    read -r -e -p "${padding}EDIT TASK: " -i "$edited_task_text" edited_task
+    read -r -e -p "${padding}EDIT DESCRIPTION: " -i "$edited_task_text" edited_task
   fi
 
-  edited_task_update="[>]$edited_task"
+  edited_task_update="[:${field_name}]$edited_task"
 
   # Since macOS comes with old BSD version of sed we cannot insert at a specific
   # line, instead we replace it with regexp.

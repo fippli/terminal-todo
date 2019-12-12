@@ -10,7 +10,10 @@ add_task () {
 
   while ((line_number < lines)); do
     line_number=$((line_number + 1))
-    set_task_status ${line_number} "[<]"
+    task_status="$(get_task_status "${line_number}")"
+    if [ "$task_status" != ":" ]; then
+      set_task_status ${line_number} "<"
+    fi
   done
 
   echo "[>]${task}" >> "$todo_task_file"

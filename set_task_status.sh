@@ -10,6 +10,6 @@ set_task_status () {
   local status=${2}
   
   task_text="$(get_task_text "${line_number}")"
-  updated_task="${status}${task_text}"
+  updated_task="[${status}]${task_text}"
   sed -i '' "${line_number} s/.*/${updated_task}/" "${todo_task_file}"
 }
