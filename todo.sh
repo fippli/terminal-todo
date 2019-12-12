@@ -144,6 +144,11 @@ while test $# -gt 0; do
       no_local=true
       shift
       ;;
+    --describe)
+      edit_meta_row "description"
+      shift
+      exit 0
+      ;;
     *)
       break
       ;;
@@ -153,6 +158,8 @@ done
 if [ "$no_local" = "false" ]; then
   [ -f "./.todo" ] && todo_task_file="./.todo"
 fi
+
+init_selection
 
 main
 

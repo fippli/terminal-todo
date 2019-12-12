@@ -23,7 +23,7 @@ edit_task () {
     line_number=$((i+1))
     task_status="$(get_task_status "${line_number}")"
 
-    if [ "$task_status" = "[>" ]; then
+    if [ "$task_status" = ">" ]; then
       edited_line_number=$line_number
     fi
 
